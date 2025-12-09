@@ -1,16 +1,10 @@
 import { GoogleGenAI } from "@google/genai";
 
 // Initialize Gemini
-// Note: In a real production app, ensure strict backend proxying for keys.
-// For this demo, we assume the key is in process.env.API_KEY or we degrade gracefully.
-const apiKey = process.env.API_KEY || '';
-const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
+// The API key must be obtained exclusively from the environment variable process.env.API_KEY.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateFinancialInsight = async (dataContext: string): Promise<string> => {
-  if (!ai) {
-    return "AI Insight Unavailable: Please configure API_KEY to enable Gemini-powered analytics.";
-  }
-
   try {
     const model = 'gemini-2.5-flash';
     const prompt = `
@@ -35,10 +29,6 @@ export const generateFinancialInsight = async (dataContext: string): Promise<str
 };
 
 export const analyzeJournalEntry = async (description: string, amount: number, type: 'credit' | 'debit'): Promise<{ riskScore: number; reason: string }> => {
-  if (!ai) {
-    return { riskScore: 0, reason: "AI Analysis Disabled (Missing Key)" };
-  }
-
   try {
     const model = 'gemini-2.5-flash';
     const prompt = `
