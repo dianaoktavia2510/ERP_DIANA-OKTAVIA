@@ -10,9 +10,10 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     define: {
-      // This exposes the API_KEY environment variable to the client-side code
-      // strictly replacing `process.env.API_KEY` with the actual string value during build.
-      'process.env.API_KEY': JSON.stringify(env.API_KEY),
+      // Expose all environment variables to the client side.
+      // This allows you to use process.env.API_KEY, process.env.FIREBASE_API_KEY, etc.
+      // WARNING: Do not put secret backend keys (like service account keys) in your Vercel env vars for this project.
+      'process.env': JSON.stringify(env),
     },
     build: {
       outDir: 'dist',
